@@ -1,7 +1,11 @@
 package uz.devazimjon.demo.simpletodoapp.ui.list
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.view.ViewCompat
 import uz.devazimjon.demo.simpletodoapp.NoteApplication
 import uz.devazimjon.demo.simpletodoapp.data.model.Note
 import uz.devazimjon.demo.simpletodoapp.databinding.ActivityNoteDetailBinding
@@ -45,9 +49,14 @@ class NoteListActivity : AppCompatActivity() {
             .also { startActivity(it) }
     }
 
-    private fun editNote(note: Note) {
-        NoteDetailActivity.newIntent(this, note)
-            .also { startActivity(it) }
+    private fun editNote(view: View, note: Note) {
+        val intent = NoteDetailActivity.newIntent(this, note)
+        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+            this,
+            view,
+            view.transitionName
+        )
+        ActivityCompat.startActivity(this, intent, options.toBundle())
     }
 
     override fun onStart() {

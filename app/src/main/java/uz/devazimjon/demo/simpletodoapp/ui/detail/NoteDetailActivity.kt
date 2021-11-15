@@ -2,13 +2,15 @@ package uz.devazimjon.demo.simpletodoapp.ui.detail
 
 import android.content.Context
 import android.content.Intent
-import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewAnimationUtils
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import uz.devazimjon.demo.simpletodoapp.NoteApplication
+import uz.devazimjon.demo.simpletodoapp.R
 import uz.devazimjon.demo.simpletodoapp.data.model.Note
 import uz.devazimjon.demo.simpletodoapp.databinding.ActivityNoteDetailBinding
 import uz.devazimjon.demo.simpletodoapp.ui.detail.presenter.NoteDetailPresenter
@@ -91,10 +93,30 @@ class NoteDetailActivity : AppCompatActivity() {
     override fun onBackPressed() {
         if (note.text.isEmpty()) {
             presenter.deleteNote(note)
+            cancelTransitionAnimation()
         } else {
             presenter.saveNote(note)
         }
         super.onBackPressed()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_detail, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.action_delete) {
+            presenter.deleteNote(note)
+            cancelTransitionAnimation()
+            supportFinishAfterTransition()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun cancelTransitionAnimation() {
+        binding.noteCv.transitionName = null
     }
 
     override fun onDestroy() {

@@ -2,6 +2,7 @@ package uz.devazimjon.demo.simpletodoapp.ui.list.adapter
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -12,10 +13,11 @@ import java.util.*
 
 class NoteAdapter : RecyclerView.Adapter<NoteAdapter.ViewHolder>() {
     private val items: MutableList<Note> = mutableListOf()
-    private var onClickListener: ((Note) -> Unit)? = null
+    private var onClickListener: ((View, Note) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(NoteItemBinding.inflate(LayoutInflater.from(parent.context)))
+        val inflater = LayoutInflater.from(parent.context)
+        return ViewHolder(NoteItemBinding.inflate(inflater, parent, false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -31,7 +33,7 @@ class NoteAdapter : RecyclerView.Adapter<NoteAdapter.ViewHolder>() {
         notifyDataSetChanged()
     }
 
-    fun setOnClickListener(block: (Note) -> Unit) {
+    fun setOnClickListener(block: (View, Note) -> Unit) {
         this.onClickListener = block
     }
 
@@ -45,7 +47,7 @@ class NoteAdapter : RecyclerView.Adapter<NoteAdapter.ViewHolder>() {
             binding.noteCv.setCardBackgroundColor(
                 ContextCompat.getColor(itemView.context, note.priorityColor)
             )
-            binding.noteCv.setOnClickListener { onClickListener?.invoke(note) }
+            binding.noteCv.setOnClickListener { onClickListener?.invoke(it, note) }
             binding.noteDateTv.text = sdf.format(Date(note.lastModified))
         }
     }
