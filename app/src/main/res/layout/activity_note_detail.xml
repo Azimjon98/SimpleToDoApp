@@ -1,23 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".NoteDetailActivity">
+    android:orientation="vertical"
+    tools:context=".ui.detail.NoteDetailActivity">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/note_rv"
+    <include
+        android:id="@+id/priorities"
+        layout="@layout/note_priority_chooser" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/note_cv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:listitem="@layout/note_item" />
+        android:layout_height="0dp"
+        android:layout_margin="4dp"
+        android:layout_weight="1"
+        android:transitionName="@string/note_transition_name"
+        app:cardCornerRadius="8dp">
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/add_fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@drawable/ic_add_white_24dp" />
+        <EditText
+            android:id="@+id/note_et"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@null"
+            android:gravity="start"
+            android:padding="8dp"
+            android:textSize="18sp"
+            tools:text="Test" />
 
-</FrameLayout>
+    </com.google.android.material.card.MaterialCardView>
+</LinearLayout>
